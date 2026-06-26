@@ -38,7 +38,6 @@ resource "google_backup_dr_management_server" "management_server" {
     peering_mode = "PRIVATE_SERVICE_ACCESS"
   }
   depends_on = [google_service_networking_connection.private_service_connection]
-
   lifecycle {
     ignore_changes = all
   }
