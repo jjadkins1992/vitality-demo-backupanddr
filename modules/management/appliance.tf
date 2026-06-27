@@ -14,6 +14,7 @@ module "backup_dr_appliance" {
   create_ba_service_account  = true
   assign_roles_to_ba_sa      = true
   ba_appliance_type          = "STANDARD_FOR_COMPUTE_ENGINE_VMS"
+  ba_registration            = false
 
   depends_on = [
     time_sleep.wait_for_management_server,
