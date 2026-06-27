@@ -4,9 +4,9 @@ variable "management_project_id" {
 variable "region" {
   type = string
 }
-variable "subnet_cidr" {
+variable "vpc_id" {
   type = string
 }
-variable "zone" {
+variable "private_service_connection" {
   type = string
 }

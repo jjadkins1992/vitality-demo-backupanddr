@@ -1,24 +1,12 @@
 output "management_server_id" {
-  description = "The ID of the Backup DR management server"
-  value       = google_backup_dr_management_server.management_server.id
+  value = google_backup_dr_management_server.management_server.id
 }
-
 output "management_server_uri" {
-  description = "The URI of the Backup DR management server console"
-  value       = google_backup_dr_management_server.management_server.management_uri
+  value = google_backup_dr_management_server.management_server.management_uri
 }
-
-output "management_server_networks" {
-  description = "Network configuration of the management server"
-  value       = google_backup_dr_management_server.management_server.networks
+output "management_server_api" {
+  value = google_backup_dr_management_server.management_server.management_uri[0].api
 }
-
-output "vpc_id" {
-  description = "The ID of the backup VPC"
-  value       = google_compute_network.backup_vpc.id
-}
-
-output "subnet_id" {
-  description = "The ID of the backup subnet"
-  value       = google_compute_subnetwork.backup_subnet.id
+output "wait_for_management_server" {
+  value = time_sleep.wait_for_management_server.id
 }
