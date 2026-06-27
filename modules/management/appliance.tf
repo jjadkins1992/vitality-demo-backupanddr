@@ -9,7 +9,7 @@ module "backup_dr_appliance" {
   network                    = google_compute_network.backup_vpc.name
   subnet                     = google_compute_subnetwork.backup_subnet.name
   ms_project_id              = var.management_project_id
-  management_server_endpoint = google_backup_dr_management_server.management_server.management_uri[0].web_ui
+  management_server_endpoint = google_backup_dr_management_server.management_server.management_uri[0].api
   ba_name                    = "backup-dr-appliance"
   create_ba_service_account  = true
   assign_roles_to_ba_sa      = true
