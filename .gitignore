@@ -5,3 +5,4 @@ terraform.tfstate.backup
 *.tfstate.backup
 *.tfvars
 backend.tf.disabled
+.bkpdr-state.json
