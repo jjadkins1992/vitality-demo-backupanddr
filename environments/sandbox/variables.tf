@@ -34,3 +34,9 @@ variable "dba_group_id" {
   type    = string
   default = "b4c3b565-e9ec-4469-aef3-05516a2bd3a2"
 }
+
+variable "force_delete" {
+  description = "Sandbox only - allow terraform destroy to bypass vault retention. Set false for prod."
+  type        = bool
+  default     = false
+}

@@ -93,4 +93,5 @@ module "vault" {
   retention_days = each.value.retention
   environment    = each.value.environment
   tier           = each.value.tier
+  force_delete   = var.force_delete
 }

@@ -28,3 +28,9 @@ variable "tier" {
   type        = string
   default     = "compute"
 }
+
+variable "force_delete" {
+  description = "Sandbox only - allows terraform destroy to bypass vault retention lock. Set false for Vitality prod."
+  type        = bool
+  default     = false
+}

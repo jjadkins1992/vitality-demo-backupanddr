@@ -1,0 +1,1951 @@
+{
+  "version": 4,
+  "terraform_version": "1.15.7",
+  "serial": 90,
+  "lineage": "039cd72c-2307-b622-c586-8a685332ed32",
+  "outputs": {
+    "management_server_id": {
+      "value": "projects/backup-and-dr-dev-0/locations/us-central1/managementServers/backup-dr-management-server",
+      "type": "string"
+    },
+    "management_server_uri": {
+      "value": [
+        {
+          "api": "https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com/actifio",
+          "web_ui": "https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com"
+        }
+      ],
+      "type": [
+        "list",
+        [
+          "object",
+          {
+            "api": "string",
+            "web_ui": "string"
+          }
+        ]
+      ]
+    },
+    "subnet_id": {
+      "value": "projects/backup-and-dr-dev-0/regions/us-central1/subnetworks/backup-dr-subnet",
+      "type": "string"
+    },
+    "vault_compute_nonprod_id": {
+      "value": "projects/backup-and-dr-dev-0/locations/us-central1/backupVaults/vault-us-central1-compute-nonprod",
+      "type": "string"
+    },
+    "vault_database_nonprod_id": {
+      "value": "projects/backup-and-dr-dev-0/locations/us-central1/backupVaults/vault-us-central1-database-nonprod",
+      "type": "string"
+    },
+    "vpc_id": {
+      "value": "projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "module": "module.management",
+      "mode": "managed",
+      "type": "google_backup_dr_management_server",
+      "name": "management_server",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "id": "projects/backup-and-dr-dev-0/locations/us-central1/managementServers/backup-dr-management-server",
+            "location": "us-central1",
+            "management_uri": [
+              {
+                "api": "https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com/actifio",
+                "web_ui": "https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com"
+              }
+            ],
+            "name": "backup-dr-management-server",
+            "networks": [],
+            "oauth2_client_id": "914126025596-ptsqsgid1qrnoci18vr95njnhfuih488.apps.googleusercontent.com",
+            "project": "backup-and-dr-dev-0",
+            "timeouts": null,
+            "type": "BACKUP_RESTORE"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "location": "us-central1",
+            "name": "backup-dr-management-server",
+            "project": "backup-and-dr-dev-0"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAwLCJkZWxldGUiOjI0MDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_service_networking_connection.private_service_connection"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management",
+      "mode": "managed",
+      "type": "google_compute_global_address",
+      "name": "private_service_range",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "address": "10.24.249.0",
+            "address_type": "INTERNAL",
+            "creation_timestamp": "2026-06-26T04:00:13.428-07:00",
+            "deletion_policy": "DELETE",
+            "description": "",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "id": "projects/backup-and-dr-dev-0/global/addresses/backup-dr-private-range",
+            "ip_version": "",
+            "label_fingerprint": "vezUS-42LLM=",
+            "labels": {},
+            "name": "backup-dr-private-range",
+            "network": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+            "prefix_length": 24,
+            "project": "backup-and-dr-dev-0",
+            "purpose": "VPC_PEERING",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/global/addresses/backup-dr-private-range",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "name": "backup-dr-private-range",
+            "project": "backup-and-dr-dev-0"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.management.google_compute_network.backup_vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management",
+      "mode": "managed",
+      "type": "google_compute_network",
+      "name": "backup_vpc",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "auto_create_subnetworks": false,
+            "bgp_always_compare_med": false,
+            "bgp_best_path_selection_mode": "LEGACY",
+            "bgp_inter_region_cost": "",
+            "delete_bgp_always_compare_med": false,
+            "delete_default_routes_on_create": false,
+            "deletion_policy": "DELETE",
+            "description": "",
+            "enable_ula_internal_ipv6": false,
+            "gateway_ipv4": "",
+            "id": "projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+            "internal_ipv6_range": "",
+            "mtu": 0,
+            "name": "backup-dr-vpc",
+            "network_firewall_policy_enforcement_order": "AFTER_CLASSIC_FIREWALL",
+            "network_id": "1461698315842464140",
+            "network_profile": "",
+            "numeric_id": "1461698315842464140",
+            "params": [],
+            "project": "backup-and-dr-dev-0",
+            "routing_mode": "REGIONAL",
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "name": "backup-dr-vpc",
+            "project": "backup-and-dr-dev-0"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "module": "module.management",
+      "mode": "managed",
+      "type": "google_compute_subnetwork",
+      "name": "backup_subnet",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allow_subnet_cidr_routes_overlap": false,
+            "creation_timestamp": "2026-06-25T23:08:49.355-07:00",
+            "deletion_policy": "DELETE",
+            "description": "",
+            "external_ipv6_prefix": "",
+            "fingerprint": null,
+            "gateway_address": "10.232.242.1",
+            "id": "projects/backup-and-dr-dev-0/regions/us-central1/subnetworks/backup-dr-subnet",
+            "internal_ipv6_prefix": "",
+            "ip_cidr_range": "10.232.242.0/24",
+            "ip_collection": "",
+            "ipv6_access_type": "",
+            "ipv6_cidr_range": "",
+            "ipv6_gce_endpoint": "",
+            "log_config": [],
+            "name": "backup-dr-subnet",
+            "network": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+            "params": [],
+            "private_ip_google_access": true,
+            "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+            "project": "backup-and-dr-dev-0",
+            "purpose": "PRIVATE",
+            "region": "us-central1",
+            "reserved_internal_range": "",
+            "resolve_subnet_mask": "",
+            "role": "",
+            "secondary_ip_range": [],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/regions/us-central1/subnetworks/backup-dr-subnet",
+            "send_secondary_ip_range_if_empty": null,
+            "stack_type": "IPV4_ONLY",
+            "state": "",
+            "subnetwork_id": 4572326923976550814,
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "name": "backup-dr-subnet",
+            "project": "backup-and-dr-dev-0",
+            "region": "us-central1"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.management.google_compute_network.backup_vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management",
+      "mode": "managed",
+      "type": "google_service_networking_connection",
+      "name": "private_service_connection",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "id": "projects%2Fbackup-and-dr-dev-0%2Fglobal%2Fnetworks%2Fbackup-dr-vpc:servicenetworking.googleapis.com",
+            "network": "projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+            "peering": "servicenetworking-googleapis-com",
+            "reserved_peering_ranges": [
+              "backup-dr-private-range"
+            ],
+            "service": "servicenetworking.googleapis.com",
+            "timeouts": null,
+            "update_on_creation_fail": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management",
+      "mode": "managed",
+      "type": "time_sleep",
+      "name": "wait_for_management_server",
+      "provider": "provider[\"registry.terraform.io/hashicorp/time\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "create_duration": "600s",
+            "destroy_duration": null,
+            "id": "2026-06-26T11:54:53Z",
+            "triggers": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_service_networking_connection.private_service_connection"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "data",
+      "type": "google_client_config",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "access_token": "ya29.a0AT3oNZ88gGbKFCTN7mUfPBi57eBRQ5ioD7_vuUvT_rWRkqwjFGN5C6RN8P6pKU3m-SiWVwq0kxjecUe-JEjKUjcuzbCI3wxlXsRy1Mq0yDk6EVpe3_5vF38oMSbFUKpXfCCp5s5tctlQvwP0ggZwOq6iqD1giHNQbZHWPdMXzbTrF0WZaY1g49Y3KxSnvkZJH-d9Z5D-Ypgxk7dLILiAcc6Lb-wPZ86iD1OgSLCjc7D4KPqw3qpT-ueXHVAwetX1_Q4bBUKpsBx1qtzNxfggUW44lrUQSoMu_tAFrXFjCGqG_TVquelDaLxWS6PDitRou5tEpMzx892mJL9A1UsPY2VKk_hBFrhw-hLEmVUaCgYKAYESARISFQHGX2MiHjrrkNcFy_jtyAPypqTiAw0366",
+            "default_labels": {},
+            "id": "projects/backup-and-dr-dev-0/regions/us-central1/zones/us-central1-a",
+            "project": "backup-and-dr-dev-0",
+            "region": "us-central1",
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "access_token"
+              }
+            ]
+          ],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "data",
+      "type": "google_client_config",
+      "name": "fetch_ivp_urls",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_token": "ya29.a0AT3oNZ88gGbKFCTN7mUfPBi57eBRQ5ioD7_vuUvT_rWRkqwjFGN5C6RN8P6pKU3m-SiWVwq0kxjecUe-JEjKUjcuzbCI3wxlXsRy1Mq0yDk6EVpe3_5vF38oMSbFUKpXfCCp5s5tctlQvwP0ggZwOq6iqD1giHNQbZHWPdMXzbTrF0WZaY1g49Y3KxSnvkZJH-d9Z5D-Ypgxk7dLILiAcc6Lb-wPZ86iD1OgSLCjc7D4KPqw3qpT-ueXHVAwetX1_Q4bBUKpsBx1qtzNxfggUW44lrUQSoMu_tAFrXFjCGqG_TVquelDaLxWS6PDitRou5tEpMzx892mJL9A1UsPY2VKk_hBFrhw-hLEmVUaCgYKAYESARISFQHGX2MiHjrrkNcFy_jtyAPypqTiAw0366",
+            "default_labels": {},
+            "id": "projects/backup-and-dr-dev-0/regions/us-central1/zones/us-central1-a",
+            "project": "backup-and-dr-dev-0",
+            "region": "us-central1",
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "access_token"
+              }
+            ]
+          ],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "data",
+      "type": "google_compute_subnetwork",
+      "name": "ba_subnet",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "description": "",
+            "external_ipv6_prefix": "",
+            "gateway_address": "10.232.242.1",
+            "id": "projects/backup-and-dr-dev-0/regions/us-central1/subnetworks/backup-dr-subnet",
+            "internal_ipv6_prefix": "",
+            "ip_cidr_range": "10.232.242.0/24",
+            "ipv6_access_type": "",
+            "name": "backup-dr-subnet",
+            "network": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+            "private_ip_google_access": true,
+            "project": "backup-and-dr-dev-0",
+            "region": "us-central1",
+            "secondary_ip_range": [],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/regions/us-central1/subnetworks/backup-dr-subnet",
+            "stack_type": "IPV4_ONLY",
+            "subnetwork_id": 4572326923976550814
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "data",
+      "type": "http",
+      "name": "actifio_session",
+      "provider": "provider[\"registry.terraform.io/hashicorp/http\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "body": "\u003chtml\u003e\n\u003chead\u003e\n\u003cmeta http-equiv=\"Content-Type\" content=\"text/html;charset=ISO-8859-1\"/\u003e\n\u003ctitle\u003eError 404 Not Found\u003c/title\u003e\n\u003c/head\u003e\n\u003cbody\u003e\u003ch2\u003eHTTP ERROR 404 Not Found\u003c/h2\u003e\n\u003ctable\u003e\n\u003ctr\u003e\u003cth\u003eURI:\u003c/th\u003e\u003ctd\u003e/session\u003c/td\u003e\u003c/tr\u003e\n\u003ctr\u003e\u003cth\u003eSTATUS:\u003c/th\u003e\u003ctd\u003e404\u003c/td\u003e\u003c/tr\u003e\n\u003ctr\u003e\u003cth\u003eMESSAGE:\u003c/th\u003e\u003ctd\u003eNot Found\u003c/td\u003e\u003c/tr\u003e\n\u003ctr\u003e\u003cth\u003eSERVLET:\u003c/th\u003e\u003ctd\u003edefault\u003c/td\u003e\u003c/tr\u003e\n\u003c/table\u003e\n\n\u003c/body\u003e\n\u003c/html\u003e\n",
+            "ca_cert_pem": null,
+            "client_cert_pem": null,
+            "client_key_pem": null,
+            "id": "https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com/session",
+            "insecure": null,
+            "method": "POST",
+            "request_body": null,
+            "request_headers": {
+              "Authorization": "Bearer ya29.a0AT3oNZ88gGbKFCTN7mUfPBi57eBRQ5ioD7_vuUvT_rWRkqwjFGN5C6RN8P6pKU3m-SiWVwq0kxjecUe-JEjKUjcuzbCI3wxlXsRy1Mq0yDk6EVpe3_5vF38oMSbFUKpXfCCp5s5tctlQvwP0ggZwOq6iqD1giHNQbZHWPdMXzbTrF0WZaY1g49Y3KxSnvkZJH-d9Z5D-Ypgxk7dLILiAcc6Lb-wPZ86iD1OgSLCjc7D4KPqw3qpT-ueXHVAwetX1_Q4bBUKpsBx1qtzNxfggUW44lrUQSoMu_tAFrXFjCGqG_TVquelDaLxWS6PDitRou5tEpMzx892mJL9A1UsPY2VKk_hBFrhw-hLEmVUaCgYKAYESARISFQHGX2MiHjrrkNcFy_jtyAPypqTiAw0366"
+            },
+            "request_timeout_ms": null,
+            "response_body": "\u003chtml\u003e\n\u003chead\u003e\n\u003cmeta http-equiv=\"Content-Type\" content=\"text/html;charset=ISO-8859-1\"/\u003e\n\u003ctitle\u003eError 404 Not Found\u003c/title\u003e\n\u003c/head\u003e\n\u003cbody\u003e\u003ch2\u003eHTTP ERROR 404 Not Found\u003c/h2\u003e\n\u003ctable\u003e\n\u003ctr\u003e\u003cth\u003eURI:\u003c/th\u003e\u003ctd\u003e/session\u003c/td\u003e\u003c/tr\u003e\n\u003ctr\u003e\u003cth\u003eSTATUS:\u003c/th\u003e\u003ctd\u003e404\u003c/td\u003e\u003c/tr\u003e\n\u003ctr\u003e\u003cth\u003eMESSAGE:\u003c/th\u003e\u003ctd\u003eNot Found\u003c/td\u003e\u003c/tr\u003e\n\u003ctr\u003e\u003cth\u003eSERVLET:\u003c/th\u003e\u003ctd\u003edefault\u003c/td\u003e\u003c/tr\u003e\n\u003c/table\u003e\n\n\u003c/body\u003e\n\u003c/html\u003e\n",
+            "response_body_base64": "PGh0bWw+CjxoZWFkPgo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDtjaGFyc2V0PUlTTy04ODU5LTEiLz4KPHRpdGxlPkVycm9yIDQwNCBOb3QgRm91bmQ8L3RpdGxlPgo8L2hlYWQ+Cjxib2R5PjxoMj5IVFRQIEVSUk9SIDQwNCBOb3QgRm91bmQ8L2gyPgo8dGFibGU+Cjx0cj48dGg+VVJJOjwvdGg+PHRkPi9zZXNzaW9uPC90ZD48L3RyPgo8dHI+PHRoPlNUQVRVUzo8L3RoPjx0ZD40MDQ8L3RkPjwvdHI+Cjx0cj48dGg+TUVTU0FHRTo8L3RoPjx0ZD5Ob3QgRm91bmQ8L3RkPjwvdHI+Cjx0cj48dGg+U0VSVkxFVDo8L3RoPjx0ZD5kZWZhdWx0PC90ZD48L3RyPgo8L3RhYmxlPgoKPC9ib2R5Pgo8L2h0bWw+Cg==",
+            "response_headers": {
+              "Cache-Control": "must-revalidate,no-cache,no-store",
+              "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: ; script-src 'report-sample' 'nonce-o4/9itUUz9pYH/vJqWArlg' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:; font-src 'self' https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; report-uri https://csp.withgoogle.com/csp/backupdr-ms/2604260000;",
+              "Content-Type": "text/html;charset=iso-8859-1",
+              "Date": "Fri, 26 Jun 2026 13:28:48 GMT",
+              "Set-Cookie": "S=backupdr_proxy=I1mLXk5Nt6mhmHEaC5iXK0TjTJaUKZFWADQ-iNsYkDQ; Path=/; Max-Age=3600, GCILB=\"10dc854c8c7b19f7\"; HttpOnly",
+              "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+              "Vary": "Origin",
+              "Via": "1.1 google",
+              "X-Content-Type-Options": "nosniff",
+              "X-Frame-Options": "SAMEORIGIN",
+              "X-Ua-Compatible": "IE=edge",
+              "X-Xss-Protection": "1"
+            },
+            "retry": null,
+            "status_code": 404,
+            "url": "https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com/session"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "request_headers"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": "Authorization",
+                  "type": "string"
+                }
+              }
+            ]
+          ],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "data",
+      "type": "http",
+      "name": "fetch_ivp_urls",
+      "provider": "provider[\"registry.terraform.io/hashicorp/http\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "body": "{\n  \"managementServers\": [\n    {\n      \"name\": \"projects/backup-and-dr-dev-0/locations/us-central1/managementServers/backup-dr-management-server\",\n      \"createTime\": \"2026-06-26T11:36:12.348589934Z\",\n      \"updateTime\": \"2026-06-26T11:49:45.040299834Z\",\n      \"state\": \"READY\",\n      \"managementUri\": {\n        \"webUi\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com\",\n        \"api\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com/actifio\"\n      },\n      \"etag\": \"5T3IDo3BiM8XaahMkke0k8Pg6Lh1Z9unN0tZRDpuB3g\",\n      \"type\": \"BACKUP_RESTORE\",\n      \"oauth2ClientId\": \"914126025596-ptsqsgid1qrnoci18vr95njnhfuih488.apps.googleusercontent.com\",\n      \"workforceIdentityBasedManagementUri\": {\n        \"firstPartyManagementUri\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com\",\n        \"thirdPartyManagementUri\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.byoid.googleusercontent.com\"\n      },\n      \"workforceIdentityBasedOauth2ClientId\": {\n        \"firstPartyOauth2ClientId\": \"914126025596-ptsqsgid1qrnoci18vr95njnhfuih488.apps.googleusercontent.com\",\n        \"thirdPartyOauth2ClientId\": \"a0b8cb1bc-4df6-4133-8ade-11b92ad0ff61\"\n      },\n      \"baProxyUri\": [\n        \"wss://bmc-253463046468-bqxz3oms-dot-us-central1.backupdr.googleusercontent.com\",\n        \"wss://bmc-253463046468-pkcu2pkh-dot-us-central1.backupdr.googleusercontent.com\"\n      ]\n    }\n  ]\n}\n",
+            "ca_cert_pem": null,
+            "client_cert_pem": null,
+            "client_key_pem": null,
+            "id": "https://backupdr.googleapis.com/v1/projects/backup-and-dr-dev-0/locations/-/managementServers",
+            "insecure": null,
+            "method": "GET",
+            "request_body": null,
+            "request_headers": {
+              "Authorization": "Bearer ya29.a0AT3oNZ88gGbKFCTN7mUfPBi57eBRQ5ioD7_vuUvT_rWRkqwjFGN5C6RN8P6pKU3m-SiWVwq0kxjecUe-JEjKUjcuzbCI3wxlXsRy1Mq0yDk6EVpe3_5vF38oMSbFUKpXfCCp5s5tctlQvwP0ggZwOq6iqD1giHNQbZHWPdMXzbTrF0WZaY1g49Y3KxSnvkZJH-d9Z5D-Ypgxk7dLILiAcc6Lb-wPZ86iD1OgSLCjc7D4KPqw3qpT-ueXHVAwetX1_Q4bBUKpsBx1qtzNxfggUW44lrUQSoMu_tAFrXFjCGqG_TVquelDaLxWS6PDitRou5tEpMzx892mJL9A1UsPY2VKk_hBFrhw-hLEmVUaCgYKAYESARISFQHGX2MiHjrrkNcFy_jtyAPypqTiAw0366"
+            },
+            "request_timeout_ms": null,
+            "response_body": "{\n  \"managementServers\": [\n    {\n      \"name\": \"projects/backup-and-dr-dev-0/locations/us-central1/managementServers/backup-dr-management-server\",\n      \"createTime\": \"2026-06-26T11:36:12.348589934Z\",\n      \"updateTime\": \"2026-06-26T11:49:45.040299834Z\",\n      \"state\": \"READY\",\n      \"managementUri\": {\n        \"webUi\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com\",\n        \"api\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com/actifio\"\n      },\n      \"etag\": \"5T3IDo3BiM8XaahMkke0k8Pg6Lh1Z9unN0tZRDpuB3g\",\n      \"type\": \"BACKUP_RESTORE\",\n      \"oauth2ClientId\": \"914126025596-ptsqsgid1qrnoci18vr95njnhfuih488.apps.googleusercontent.com\",\n      \"workforceIdentityBasedManagementUri\": {\n        \"firstPartyManagementUri\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.googleusercontent.com\",\n        \"thirdPartyManagementUri\": \"https://bmc-253463046468-goxcixqb-dot-us-central1.backupdr.byoid.googleusercontent.com\"\n      },\n      \"workforceIdentityBasedOauth2ClientId\": {\n        \"firstPartyOauth2ClientId\": \"914126025596-ptsqsgid1qrnoci18vr95njnhfuih488.apps.googleusercontent.com\",\n        \"thirdPartyOauth2ClientId\": \"a0b8cb1bc-4df6-4133-8ade-11b92ad0ff61\"\n      },\n      \"baProxyUri\": [\n        \"wss://bmc-253463046468-bqxz3oms-dot-us-central1.backupdr.googleusercontent.com\",\n        \"wss://bmc-253463046468-pkcu2pkh-dot-us-central1.backupdr.googleusercontent.com\"\n      ]\n    }\n  ]\n}\n",
+            "response_body_base64": "ewogICJtYW5hZ2VtZW50U2VydmVycyI6IFsKICAgIHsKICAgICAgIm5hbWUiOiAicHJvamVjdHMvYmFja3VwLWFuZC1kci1kZXYtMC9sb2NhdGlvbnMvdXMtY2VudHJhbDEvbWFuYWdlbWVudFNlcnZlcnMvYmFja3VwLWRyLW1hbmFnZW1lbnQtc2VydmVyIiwKICAgICAgImNyZWF0ZVRpbWUiOiAiMjAyNi0wNi0yNlQxMTozNjoxMi4zNDg1ODk5MzRaIiwKICAgICAgInVwZGF0ZVRpbWUiOiAiMjAyNi0wNi0yNlQxMTo0OTo0NS4wNDAyOTk4MzRaIiwKICAgICAgInN0YXRlIjogIlJFQURZIiwKICAgICAgIm1hbmFnZW1lbnRVcmkiOiB7CiAgICAgICAgIndlYlVpIjogImh0dHBzOi8vYm1jLTI1MzQ2MzA0NjQ2OC1nb3hjaXhxYi1kb3QtdXMtY2VudHJhbDEuYmFja3VwZHIuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwKICAgICAgICAiYXBpIjogImh0dHBzOi8vYm1jLTI1MzQ2MzA0NjQ2OC1nb3hjaXhxYi1kb3QtdXMtY2VudHJhbDEuYmFja3VwZHIuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2FjdGlmaW8iCiAgICAgIH0sCiAgICAgICJldGFnIjogIjVUM0lEbzNCaU04WGFhaE1ra2UwazhQZzZMaDFaOXVuTjB0WlJEcHVCM2ciLAogICAgICAidHlwZSI6ICJCQUNLVVBfUkVTVE9SRSIsCiAgICAgICJvYXV0aDJDbGllbnRJZCI6ICI5MTQxMjYwMjU1OTYtcHRzcXNnaWQxcXJub2NpMTh2cjk1bmpuaGZ1aWg0ODguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLAogICAgICAid29ya2ZvcmNlSWRlbnRpdHlCYXNlZE1hbmFnZW1lbnRVcmkiOiB7CiAgICAgICAgImZpcnN0UGFydHlNYW5hZ2VtZW50VXJpIjogImh0dHBzOi8vYm1jLTI1MzQ2MzA0NjQ2OC1nb3hjaXhxYi1kb3QtdXMtY2VudHJhbDEuYmFja3VwZHIuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwKICAgICAgICAidGhpcmRQYXJ0eU1hbmFnZW1lbnRVcmkiOiAiaHR0cHM6Ly9ibWMtMjUzNDYzMDQ2NDY4LWdveGNpeHFiLWRvdC11cy1jZW50cmFsMS5iYWNrdXBkci5ieW9pZC5nb29nbGV1c2VyY29udGVudC5jb20iCiAgICAgIH0sCiAgICAgICJ3b3JrZm9yY2VJZGVudGl0eUJhc2VkT2F1dGgyQ2xpZW50SWQiOiB7CiAgICAgICAgImZpcnN0UGFydHlPYXV0aDJDbGllbnRJZCI6ICI5MTQxMjYwMjU1OTYtcHRzcXNnaWQxcXJub2NpMTh2cjk1bmpuaGZ1aWg0ODguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLAogICAgICAgICJ0aGlyZFBhcnR5T2F1dGgyQ2xpZW50SWQiOiAiYTBiOGNiMWJjLTRkZjYtNDEzMy04YWRlLTExYjkyYWQwZmY2MSIKICAgICAgfSwKICAgICAgImJhUHJveHlVcmkiOiBbCiAgICAgICAgIndzczovL2JtYy0yNTM0NjMwNDY0NjgtYnF4ejNvbXMtZG90LXVzLWNlbnRyYWwxLmJhY2t1cGRyLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsCiAgICAgICAgIndzczovL2JtYy0yNTM0NjMwNDY0NjgtcGtjdTJwa2gtZG90LXVzLWNlbnRyYWwxLmJhY2t1cGRyLmdvb2dsZXVzZXJjb250ZW50LmNvbSIKICAgICAgXQogICAgfQogIF0KfQo=",
+            "response_headers": {
+              "Content-Type": "application/json; charset=UTF-8",
+              "Date": "Fri, 26 Jun 2026 13:28:47 GMT",
+              "Server": "ESF",
+              "Vary": "Origin, X-Origin, Referer",
+              "X-Content-Type-Options": "nosniff",
+              "X-Frame-Options": "SAMEORIGIN",
+              "X-Xss-Protection": "0"
+            },
+            "retry": null,
+            "status_code": 200,
+            "url": "https://backupdr.googleapis.com/v1/projects/backup-and-dr-dev-0/locations/-/managementServers"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "request_headers"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": "Authorization",
+                  "type": "string"
+                }
+              }
+            ]
+          ],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_compute_attached_disk",
+      "name": "primary-pool",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "device_name": "primary-pool",
+            "disk": "projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-primary-pool",
+            "id": "projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ/backup-dr-appliance-2equ-primary-pool",
+            "instance": "projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ",
+            "interface": null,
+            "mode": "READ_WRITE",
+            "project": "backup-and-dr-dev-0",
+            "timeouts": null,
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_client_config.fetch_ivp_urls",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.data.http.fetch_ivp_urls",
+            "module.management.module.backup_dr_appliance.google_compute_disk.ba_primary_pool",
+            "module.management.module.backup_dr_appliance.google_compute_disk.boot_disk",
+            "module.management.module.backup_dr_appliance.google_compute_instance.appliance",
+            "module.management.module.backup_dr_appliance.google_kms_key_ring.ba_keyring",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.module.backup_dr_appliance.random_string.shared_secret",
+            "module.management.module.backup_dr_appliance.time_static.activation_date",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_compute_attached_disk",
+      "name": "snapshot-pool",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "device_name": "snapshot-pool",
+            "disk": "projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-snapshot-pool",
+            "id": "projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ/backup-dr-appliance-2equ-snapshot-pool",
+            "instance": "projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ",
+            "interface": null,
+            "mode": "READ_WRITE",
+            "project": "backup-and-dr-dev-0",
+            "timeouts": null,
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_client_config.fetch_ivp_urls",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.data.http.fetch_ivp_urls",
+            "module.management.module.backup_dr_appliance.google_compute_disk.ba_snapshot_pool",
+            "module.management.module.backup_dr_appliance.google_compute_disk.boot_disk",
+            "module.management.module.backup_dr_appliance.google_compute_instance.appliance",
+            "module.management.module.backup_dr_appliance.google_kms_key_ring.ba_keyring",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.module.backup_dr_appliance.random_string.shared_secret",
+            "module.management.module.backup_dr_appliance.time_static.activation_date",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_compute_disk",
+      "name": "ba_primary_pool",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_mode": "",
+            "architecture": null,
+            "async_primary_disk": [],
+            "create_snapshot_before_destroy": false,
+            "create_snapshot_before_destroy_prefix": null,
+            "creation_timestamp": "2026-06-26T02:49:27.583-07:00",
+            "deletion_policy": "DELETE",
+            "description": "",
+            "disk_encryption_key": [],
+            "disk_id": "6646578261433513416",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "enable_confidential_compute": false,
+            "guest_os_features": [],
+            "id": "projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-primary-pool",
+            "image": "",
+            "label_fingerprint": "vezUS-42LLM=",
+            "labels": {},
+            "last_attach_timestamp": "2026-06-26T02:50:24.630-07:00",
+            "last_detach_timestamp": "",
+            "licenses": [],
+            "name": "backup-dr-appliance-2equ-primary-pool",
+            "params": [],
+            "physical_block_size_bytes": 4096,
+            "project": "backup-and-dr-dev-0",
+            "provisioned_iops": 0,
+            "provisioned_throughput": 0,
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-primary-pool",
+            "size": 200,
+            "snapshot": "",
+            "source_disk": "",
+            "source_disk_id": "",
+            "source_image_encryption_key": [],
+            "source_image_id": "",
+            "source_instant_snapshot": "",
+            "source_instant_snapshot_id": "",
+            "source_snapshot_encryption_key": [],
+            "source_snapshot_id": "",
+            "source_storage_object": null,
+            "storage_pool": "",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "type": "pd-standard",
+            "users": [
+              "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ"
+            ],
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "name": "backup-dr-appliance-2equ-primary-pool",
+            "project": "backup-and-dr-dev-0",
+            "zone": "us-central1-a"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_compute_disk",
+      "name": "ba_snapshot_pool",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_mode": "",
+            "architecture": null,
+            "async_primary_disk": [],
+            "create_snapshot_before_destroy": false,
+            "create_snapshot_before_destroy_prefix": null,
+            "creation_timestamp": "2026-06-26T02:49:27.504-07:00",
+            "deletion_policy": "DELETE",
+            "description": "",
+            "disk_encryption_key": [],
+            "disk_id": "4214166053520143816",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "enable_confidential_compute": false,
+            "guest_os_features": [],
+            "id": "projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-snapshot-pool",
+            "image": "",
+            "label_fingerprint": "vezUS-42LLM=",
+            "labels": {},
+            "last_attach_timestamp": "2026-06-26T02:50:20.810-07:00",
+            "last_detach_timestamp": "",
+            "licenses": [],
+            "name": "backup-dr-appliance-2equ-snapshot-pool",
+            "params": [],
+            "physical_block_size_bytes": 4096,
+            "project": "backup-and-dr-dev-0",
+            "provisioned_iops": 0,
+            "provisioned_throughput": 0,
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-snapshot-pool",
+            "size": 10,
+            "snapshot": "",
+            "source_disk": "",
+            "source_disk_id": "",
+            "source_image_encryption_key": [],
+            "source_image_id": "",
+            "source_instant_snapshot": "",
+            "source_instant_snapshot_id": "",
+            "source_snapshot_encryption_key": [],
+            "source_snapshot_id": "",
+            "source_storage_object": null,
+            "storage_pool": "",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "type": "pd-standard",
+            "users": [
+              "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ"
+            ],
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "name": "backup-dr-appliance-2equ-snapshot-pool",
+            "project": "backup-and-dr-dev-0",
+            "zone": "us-central1-a"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_compute_disk",
+      "name": "boot_disk",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_mode": "",
+            "architecture": null,
+            "async_primary_disk": [],
+            "create_snapshot_before_destroy": false,
+            "create_snapshot_before_destroy_prefix": null,
+            "creation_timestamp": "2026-06-26T02:49:27.862-07:00",
+            "deletion_policy": "DELETE",
+            "description": "",
+            "disk_encryption_key": [],
+            "disk_id": "1823583073268397512",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "enable_confidential_compute": false,
+            "guest_os_features": [
+              {
+                "type": "UEFI_COMPATIBLE"
+              }
+            ],
+            "id": "projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ",
+            "image": "https://www.googleapis.com/compute/v1/projects/backupdr-images/global/images/sky-11-0-17-348",
+            "label_fingerprint": "vezUS-42LLM=",
+            "labels": {},
+            "last_attach_timestamp": "2026-06-26T02:49:57.374-07:00",
+            "last_detach_timestamp": "",
+            "licenses": [
+              "https://www.googleapis.com/compute/v1/projects/compute-image-import/global/licenses/virtual-disk-import",
+              "https://www.googleapis.com/compute/v1/projects/rocky-linux-cloud/global/licenses/rocky-linux-8"
+            ],
+            "name": "backup-dr-appliance-2equ",
+            "params": [],
+            "physical_block_size_bytes": 4096,
+            "project": "backup-and-dr-dev-0",
+            "provisioned_iops": 0,
+            "provisioned_throughput": 0,
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ",
+            "size": 200,
+            "snapshot": "",
+            "source_disk": "",
+            "source_disk_id": "",
+            "source_image_encryption_key": [],
+            "source_image_id": "7823321514437939575",
+            "source_instant_snapshot": "",
+            "source_instant_snapshot_id": "",
+            "source_snapshot_encryption_key": [],
+            "source_snapshot_id": "",
+            "source_storage_object": null,
+            "storage_pool": "",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "type": "pd-standard",
+            "users": [
+              "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ"
+            ],
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "name": "backup-dr-appliance-2equ",
+            "project": "backup-and-dr-dev-0",
+            "zone": "us-central1-a"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_compute_firewall",
+      "name": "ba_firewall_rule",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": []
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_compute_instance",
+      "name": "appliance",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 6,
+          "attributes": {
+            "advanced_machine_features": [],
+            "allow_stopping_for_update": null,
+            "attached_disk": [
+              {
+                "device_name": "snapshot-pool",
+                "disk_encryption_key_raw": "",
+                "disk_encryption_key_rsa": "",
+                "disk_encryption_key_sha256": "",
+                "disk_encryption_service_account": "",
+                "force_attach": false,
+                "kms_key_self_link": "",
+                "mode": "READ_WRITE",
+                "source": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-snapshot-pool"
+              },
+              {
+                "device_name": "primary-pool",
+                "disk_encryption_key_raw": "",
+                "disk_encryption_key_rsa": "",
+                "disk_encryption_key_sha256": "",
+                "disk_encryption_service_account": "",
+                "force_attach": false,
+                "kms_key_self_link": "",
+                "mode": "READ_WRITE",
+                "source": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ-primary-pool"
+              }
+            ],
+            "boot_disk": [
+              {
+                "auto_delete": true,
+                "device_name": "backup-dr-appliance-2equ",
+                "disk_encryption_key_raw": "",
+                "disk_encryption_key_rsa": "",
+                "disk_encryption_key_sha256": "",
+                "disk_encryption_service_account": "",
+                "force_attach": false,
+                "guest_os_features": [
+                  "UEFI_COMPATIBLE"
+                ],
+                "initialize_params": [
+                  {
+                    "architecture": "",
+                    "enable_confidential_compute": false,
+                    "image": "https://www.googleapis.com/compute/v1/projects/backupdr-images/global/images/sky-11-0-17-348",
+                    "labels": {
+                      "goog-terraform-provisioned": "true"
+                    },
+                    "provisioned_iops": 0,
+                    "provisioned_throughput": 0,
+                    "replica_zones": [],
+                    "resource_manager_tags": {},
+                    "resource_policies": [],
+                    "size": 200,
+                    "snapshot": "",
+                    "source_image_encryption_key": [],
+                    "source_snapshot_encryption_key": [],
+                    "storage_pool": "",
+                    "type": "pd-standard"
+                  }
+                ],
+                "interface": "",
+                "kms_key_self_link": "",
+                "mode": "READ_WRITE",
+                "source": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/disks/backup-dr-appliance-2equ"
+              }
+            ],
+            "can_ip_forward": false,
+            "confidential_instance_config": [],
+            "cpu_platform": "Intel Broadwell",
+            "creation_timestamp": "2026-06-26T02:49:56.739-07:00",
+            "current_status": "RUNNING",
+            "deletion_policy": "DELETE",
+            "deletion_protection": true,
+            "description": "",
+            "desired_status": null,
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "enable_display": false,
+            "guest_accelerator": [],
+            "hostname": "",
+            "id": "projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ",
+            "instance_encryption_key": [],
+            "instance_id": "7720177698677716395",
+            "key_revocation_action_type": "",
+            "label_fingerprint": "vezUS-42LLM=",
+            "labels": {},
+            "machine_type": "e2-standard-4",
+            "metadata": {
+              "agm_instance_ivp_urls": "wss://bmc-253463046468-vkk73tmp-dot-us-central1.backupdr.googleusercontent.com,wss://bmc-253463046468-ksclvfal-dot-us-central1.backupdr.googleusercontent.com",
+              "install_status": "ok",
+              "kms_keyringname": "backup-dr-appliance-2equ-keyring",
+              "performance_pool_device": "snapshot-pool",
+              "primary_pool_device": "primary-pool"
+            },
+            "metadata_fingerprint": "iC9HWjauEcc=",
+            "metadata_startup_script": null,
+            "min_cpu_platform": "",
+            "name": "backup-dr-appliance-2equ",
+            "network_interface": [
+              {
+                "access_config": [],
+                "alias_ip_range": [],
+                "igmp_query": "",
+                "internal_ipv6_prefix_length": 0,
+                "ipv6_access_config": [],
+                "ipv6_access_type": "",
+                "ipv6_address": "",
+                "name": "nic0",
+                "network": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/global/networks/backup-dr-vpc",
+                "network_attachment": "",
+                "network_ip": "10.232.242.2",
+                "nic_type": "",
+                "parent_nic_name": "",
+                "queue_count": 0,
+                "stack_type": "IPV4_ONLY",
+                "subnetwork": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/regions/us-central1/subnetworks/backup-dr-subnet",
+                "subnetwork_project": "backup-and-dr-dev-0",
+                "vlan": 0
+              }
+            ],
+            "network_performance_config": [],
+            "params": [],
+            "project": "backup-and-dr-dev-0",
+            "reservation_affinity": [],
+            "resource_policies": [],
+            "scheduling": [
+              {
+                "automatic_restart": true,
+                "availability_domain": 0,
+                "instance_termination_action": "",
+                "local_ssd_recovery_timeout": [],
+                "max_run_duration": [],
+                "min_node_cpus": 0,
+                "node_affinities": [],
+                "on_host_maintenance": "MIGRATE",
+                "on_instance_stop_action": [],
+                "preemptible": false,
+                "provisioning_model": "STANDARD",
+                "termination_time": ""
+              }
+            ],
+            "scratch_disk": [],
+            "self_link": "https://www.googleapis.com/compute/v1/projects/backup-and-dr-dev-0/zones/us-central1-a/instances/backup-dr-appliance-2equ",
+            "service_account": [
+              {
+                "email": "backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+                "scopes": [
+                  "https://www.googleapis.com/auth/cloud-platform"
+                ]
+              }
+            ],
+            "shielded_instance_config": [
+              {
+                "enable_integrity_monitoring": true,
+                "enable_secure_boot": true,
+                "enable_vtpm": true
+              }
+            ],
+            "tags": [],
+            "tags_fingerprint": "42WmSpB8rSM=",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "zone": "us-central1-a"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "attached_disk"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "disk_encryption_key_raw"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "attached_disk"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "disk_encryption_key_rsa"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "attached_disk"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 1,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "disk_encryption_key_raw"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "attached_disk"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 1,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "disk_encryption_key_rsa"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "boot_disk"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "disk_encryption_key_raw"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "boot_disk"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": 0,
+                  "type": "number"
+                }
+              },
+              {
+                "type": "get_attr",
+                "value": "disk_encryption_key_rsa"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiNiJ9",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_client_config.fetch_ivp_urls",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.data.http.fetch_ivp_urls",
+            "module.management.module.backup_dr_appliance.google_compute_disk.boot_disk",
+            "module.management.module.backup_dr_appliance.google_kms_key_ring.ba_keyring",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.module.backup_dr_appliance.random_string.shared_secret",
+            "module.management.module.backup_dr_appliance.time_static.activation_date",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_kms_crypto_key",
+      "name": "kek",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "crypto_key_backend": "",
+            "deletion_policy": "DELETE",
+            "destroy_scheduled_duration": "2592000s",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "id": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring/cryptoKeys/kek",
+            "import_only": false,
+            "key_ring": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring",
+            "labels": {},
+            "name": "kek",
+            "primary": [
+              {
+                "name": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring/cryptoKeys/kek/cryptoKeyVersions/1",
+                "state": "ENABLED"
+              }
+            ],
+            "purpose": "ENCRYPT_DECRYPT",
+            "rotation_period": "7776000s",
+            "skip_initial_version_creation": false,
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "version_template": [
+              {
+                "algorithm": "GOOGLE_SYMMETRIC_ENCRYPTION",
+                "protection_level": "SOFTWARE"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "key_ring": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring",
+            "name": "kek"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_kms_key_ring.ba_keyring",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_kms_key_ring",
+      "name": "ba_keyring",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring",
+            "location": "us-central1",
+            "name": "backup-dr-appliance-2equ-keyring",
+            "project": "backup-and-dr-dev-0",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "location": "us-central1",
+            "name": "backup-dr-appliance-2equ-keyring",
+            "project": "backup-and-dr-dev-0"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_kms_key_ring_iam_member",
+      "name": "ba_keyring",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "roles/cloudkms.admin",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZVJQhzNQE=",
+            "id": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring/roles/cloudkms.admin/serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "key_ring_id": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "role": "roles/cloudkms.admin"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_kms_key_ring.ba_keyring",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        },
+        {
+          "index_key": "roles/cloudkms.cryptoKeyEncrypterDecrypter",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZVJQhzNQE=",
+            "id": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring/roles/cloudkms.cryptoKeyEncrypterDecrypter/serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "key_ring_id": "projects/backup-and-dr-dev-0/locations/us-central1/keyRings/backup-dr-appliance-2equ-keyring",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "role": "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_kms_key_ring.ba_keyring",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "ba_service_account_roles",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "roles/backupdr.computeEngineOperator",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZVJgR+5YY=",
+            "id": "backup-and-dr-dev-0/roles/backupdr.computeEngineOperator/serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/backupdr.computeEngineOperator"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "condition_title": null,
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/backupdr.computeEngineOperator"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        },
+        {
+          "index_key": "roles/iam.serviceAccountUser",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZVJgR+5YY=",
+            "id": "backup-and-dr-dev-0/roles/iam.serviceAccountUser/serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/iam.serviceAccountUser"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "condition_title": null,
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/iam.serviceAccountUser"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        },
+        {
+          "index_key": "roles/logging.logWriter",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZVJgR+5YY=",
+            "id": "backup-and-dr-dev-0/roles/logging.logWriter/serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/logging.logWriter"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "condition_title": null,
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/logging.logWriter"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "ba_service_vault_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "condition": [
+              {
+                "description": "Permissions for storing GCE VM instance backup metadata in bucket",
+                "expression": "resource.name.startsWith(\"projects/_/buckets/backup-dr-appliance-2equ\")",
+                "title": "backup-dr-appliance-2equ-cloud-storage-metadata"
+              }
+            ],
+            "etag": "BwZVJgR+5YY=",
+            "id": "backup-and-dr-dev-0/roles/backupdr.cloudStorageOperator/serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com/backup-dr-appliance-2equ-cloud-storage-metadata/Permissions for storing GCE VM instance backup metadata in bucket/resource.name.startsWith(\"projects/_/buckets/backup-dr-appliance-2equ\")",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/backupdr.cloudStorageOperator"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "condition_title": "backup-dr-appliance-2equ-cloud-storage-metadata",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "role": "roles/backupdr.cloudStorageOperator"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.google_service_account.ba_service_account",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_project_service",
+      "name": "enable_services",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "cloudkms.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "backup-and-dr-dev-0/cloudkms.googleapis.com",
+            "project": "backup-and-dr-dev-0",
+            "service": "cloudkms.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        },
+        {
+          "index_key": "cloudresourcemanager.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "backup-and-dr-dev-0/cloudresourcemanager.googleapis.com",
+            "project": "backup-and-dr-dev-0",
+            "service": "cloudresourcemanager.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        },
+        {
+          "index_key": "compute.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "backup-and-dr-dev-0/compute.googleapis.com",
+            "project": "backup-and-dr-dev-0",
+            "service": "compute.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        },
+        {
+          "index_key": "iam.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "backup-and-dr-dev-0/iam.googleapis.com",
+            "project": "backup-and-dr-dev-0",
+            "service": "iam.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        },
+        {
+          "index_key": "logging.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "deletion_policy": "DELETE",
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "backup-and-dr-dev-0/logging.googleapis.com",
+            "project": "backup-and-dr-dev-0",
+            "service": "logging.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0=",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "ba_service_account",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "backup-dr-appliance-2equ",
+            "create_ignore_already_exists": null,
+            "deletion_policy": "DELETE",
+            "description": "",
+            "disabled": false,
+            "display_name": "Backup DR Appliance Service Account",
+            "email": "backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "id": "projects/backup-and-dr-dev-0/serviceAccounts/backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "member": "serviceAccount:backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "name": "projects/backup-and-dr-dev-0/serviceAccounts/backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0",
+            "timeouts": null,
+            "unique_id": "112258495491314034736"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "email": "backup-dr-appliance-2equ@backup-and-dr-dev-0.iam.gserviceaccount.com",
+            "project": "backup-and-dr-dev-0"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+            "module.management.module.backup_dr_appliance.google_project_service.enable_services",
+            "module.management.module.backup_dr_appliance.random_string.id",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "random_string",
+      "name": "id",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "id": "2equ",
+            "keepers": null,
+            "length": 4,
+            "lower": true,
+            "min_lower": 0,
+            "min_numeric": 0,
+            "min_special": 0,
+            "min_upper": 0,
+            "number": true,
+            "numeric": true,
+            "override_special": null,
+            "result": "2equ",
+            "special": false,
+            "upper": false
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "random_string",
+      "name": "shared_secret",
+      "provider": "provider[\"registry.terraform.io/hashicorp/random\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "id": "0CFtkV0XHdpu7YQxFeeDO5dRH2vusLfc2uc9eEhE",
+            "keepers": null,
+            "length": 40,
+            "lower": true,
+            "min_lower": 0,
+            "min_numeric": 0,
+            "min_special": 0,
+            "min_upper": 0,
+            "number": true,
+            "numeric": true,
+            "override_special": null,
+            "result": "0CFtkV0XHdpu7YQxFeeDO5dRH2vusLfc2uc9eEhE",
+            "special": false,
+            "upper": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.management.module.backup_dr_appliance",
+      "mode": "managed",
+      "type": "time_static",
+      "name": "activation_date",
+      "provider": "provider[\"registry.terraform.io/hashicorp/time\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "day": 26,
+            "hour": 8,
+            "id": "2026-06-26T08:03:05Z",
+            "minute": 3,
+            "month": 6,
+            "rfc3339": "2026-06-26T08:03:05Z",
+            "second": 5,
+            "triggers": null,
+            "unix": 1782460985,
+            "year": 2026
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "module.management.google_backup_dr_management_server.management_server",
+            "module.management.google_compute_global_address.private_service_range",
+            "module.management.google_compute_network.backup_vpc",
+            "module.management.google_compute_subnetwork.backup_subnet",
+            "module.management.google_service_networking_connection.private_service_connection",
+            "module.management.time_sleep.wait_for_management_server"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.vault_compute_nonprod",
+      "mode": "managed",
+      "type": "google_backup_dr_backup_vault",
+      "name": "vault",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_restriction": "WITHIN_ORGANIZATION",
+            "allow_missing": false,
+            "annotations": {},
+            "backup_count": "",
+            "backup_minimum_enforced_retention_duration": "2592000s",
+            "backup_retention_inheritance": null,
+            "backup_vault_id": "vault-us-central1-compute-nonprod",
+            "create_time": "2026-06-26T06:08:39.378601925Z",
+            "deletable": true,
+            "deletion_policy": "DELETE",
+            "description": "Non-prod vault for Compute Engine and Persistent Disks",
+            "effective_annotations": {},
+            "effective_labels": {
+              "environment": "nonprod",
+              "goog-terraform-provisioned": "true",
+              "managed-by": "terraform",
+              "tier": "compute"
+            },
+            "effective_time": "",
+            "encryption_config": [],
+            "etag": "4NuudVgZFPugnU_Ck2nPXvrTNqiSiXfNHha5LtbnTGI",
+            "force_delete": false,
+            "force_update": false,
+            "id": "projects/backup-and-dr-dev-0/locations/us-central1/backupVaults/vault-us-central1-compute-nonprod",
+            "ignore_backup_plan_references": false,
+            "ignore_inactive_datasources": false,
+            "labels": {
+              "environment": "nonprod",
+              "managed-by": "terraform",
+              "tier": "compute"
+            },
+            "location": "us-central1",
+            "name": "projects/backup-and-dr-dev-0/locations/us-central1/backupVaults/vault-us-central1-compute-nonprod",
+            "project": "backup-and-dr-dev-0",
+            "service_account": "vault-253463046468-88510037@gcp-sa-backupdr-pr.iam.gserviceaccount.com",
+            "state": "ACTIVE",
+            "terraform_labels": {
+              "environment": "nonprod",
+              "goog-terraform-provisioned": "true",
+              "managed-by": "terraform",
+              "tier": "compute"
+            },
+            "timeouts": null,
+            "total_stored_bytes": "",
+            "uid": "6975ca96-f116-4a44-8c57-5e3314f568ac",
+            "update_time": "2026-06-26T06:09:30.678147187Z"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "backup_vault_id": "vault-us-central1-compute-nonprod",
+            "location": "us-central1",
+            "project": "backup-and-dr-dev-0"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "module": "module.vault_database_nonprod",
+      "mode": "managed",
+      "type": "google_backup_dr_backup_vault",
+      "name": "vault",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access_restriction": "WITHIN_ORGANIZATION",
+            "allow_missing": false,
+            "annotations": {},
+            "backup_count": "",
+            "backup_minimum_enforced_retention_duration": "2592000s",
+            "backup_retention_inheritance": null,
+            "backup_vault_id": "vault-us-central1-database-nonprod",
+            "create_time": "2026-06-26T06:08:38.610642172Z",
+            "deletable": true,
+            "deletion_policy": "DELETE",
+            "description": "Non-prod vault for Cloud SQL and AlloyDB",
+            "effective_annotations": {},
+            "effective_labels": {
+              "environment": "nonprod",
+              "goog-terraform-provisioned": "true",
+              "managed-by": "terraform",
+              "tier": "database"
+            },
+            "effective_time": "",
+            "encryption_config": [],
+            "etag": "E9W9IjDx6HV0sczQoPKlu_Bp3YPW0pO46C6FjntbZmM",
+            "force_delete": false,
+            "force_update": false,
+            "id": "projects/backup-and-dr-dev-0/locations/us-central1/backupVaults/vault-us-central1-database-nonprod",
+            "ignore_backup_plan_references": false,
+            "ignore_inactive_datasources": false,
+            "labels": {
+              "environment": "nonprod",
+              "managed-by": "terraform",
+              "tier": "database"
+            },
+            "location": "us-central1",
+            "name": "projects/backup-and-dr-dev-0/locations/us-central1/backupVaults/vault-us-central1-database-nonprod",
+            "project": "backup-and-dr-dev-0",
+            "service_account": "vault-253463046468-74093037@gcp-sa-backupdr-pr.iam.gserviceaccount.com",
+            "state": "ACTIVE",
+            "terraform_labels": {
+              "environment": "nonprod",
+              "goog-terraform-provisioned": "true",
+              "managed-by": "terraform",
+              "tier": "database"
+            },
+            "timeouts": null,
+            "total_stored_bytes": "",
+            "uid": "be0dee4b-5fc4-45ee-bb85-99a58d1a897f",
+            "update_time": "2026-06-26T06:09:29.701838403Z"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "backup_vault_id": "vault-us-central1-database-nonprod",
+            "location": "us-central1",
+            "project": "backup-and-dr-dev-0"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    }
+  ],
+  "check_results": [
+    {
+      "object_kind": "resource",
+      "config_addr": "module.management.module.backup_dr_appliance.data.http.actifio_session",
+      "status": "fail",
+      "objects": [
+        {
+          "object_addr": "module.management.module.backup_dr_appliance.data.http.actifio_session[0]",
+          "status": "fail",
+          "failure_messages": [
+            "Actifio Session status code invalid. Make sure Management Server Configuration is correct!"
+          ]
+        }
+      ]
+    },
+    {
+      "object_kind": "var",
+      "config_addr": "module.management.module.backup_dr_appliance.var.ba_appliance_type",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.management.module.backup_dr_appliance.var.ba_appliance_type",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "object_kind": "resource",
+      "config_addr": "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "module.management.module.backup_dr_appliance.data.google_compute_subnetwork.ba_subnet",
+          "status": "pass"
+        }
+      ]
+    }
+  ]
+}
