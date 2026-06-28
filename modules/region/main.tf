@@ -39,7 +39,7 @@ module "backup_dr_appliance" {
   create_ba_service_account  = true
   assign_roles_to_ba_sa      = true
   ba_appliance_type          = "STANDARD_FOR_COMPUTE_ENGINE_VMS"
-  ba_registration            = true
+  ba_registration            = false
 
   depends_on = [
     google_compute_subnetwork.backup_subnet,
