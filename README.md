@@ -24,7 +24,7 @@ This README is written for someone **new to Terraform**. It explains the concept
 
 ## 1. What this builds
 
-Four things, each built by its own Terraform **module** (a reusable block of code):
+The solution is built from these Terraform **modules** (a module is a reusable block of code):
 
 | Module | What it creates | How many |
 |--------|-----------------|----------|
@@ -32,8 +32,10 @@ Four things, each built by its own Terraform **module** (a reusable block of cod
 | `management` | The central "brain" - the management server that coordinates everything | One |
 | `region` | Per region: a subnet, a router, a NAT gateway, and a backup appliance | One per region |
 | `vault` | One immutable backup vault (where backups are stored) | Many |
+| `workload-iam` | The cross-project permissions the backup service needs | One |
+| `backup-plan` | A backup plan and association for one workload | One per workload |
 
-A **vault** is just storage. To actually back something up you also need a **backup plan** (a schedule) and an **association** (which links a workload to a plan). Those are covered in section 6.
+The first four modules build the **platform**. The last two set up the **actual backups** (covered in section 6). A vault on its own is just storage - a backup plan and association are what make a workload get backed up.
 
 ---
 
@@ -69,6 +71,8 @@ repo/
     management/   the central management server
     region/       per-region subnet, router, NAT, and appliance
     vault/        one immutable backup vault
+    backup-plan/  a backup plan + association for one workload
+    workload-iam/ cross-project permission grants for the backup service
   environments/
     <client>/     this is what you edit per client:
                     main.tf       - wires the modules together with values
@@ -137,33 +141,117 @@ In the `region` module the appliance is set with `ba_registration = false`. **Le
 
 ## 6. Set up a backup
 
-Vaults are storage. To back a workload up you need a **backup plan** and an **association**. These are currently set up with `gcloud` commands (they can be moved into Terraform later).
+Vaults are only storage. To back a workload up you need a **backup plan** (the schedule and target vault) and an **association** (which links one workload to a plan). Both are now handled by Terraform modules, so you add a workload by editing config rather than running commands.
 
-### 6.1 Create a backup plan
-A plan lives in the **management project** and points at one vault. The backup window must be at least **6 hours**.
-```bash
-gcloud backup-dr backup-plans create <PLAN_NAME> \
-  --project=<MGMT_PROJECT> --location=<REGION> \
-  --resource-type=compute.googleapis.com/Instance \
-  --backup-vault=projects/<MGMT_PROJECT>/locations/<REGION>/backupVaults/<VAULT> \
-  --backup-rule=rule-id=daily-6h,recurrence=HOURLY,hourly-frequency=6,time-zone=UTC,backup-window-start=0,backup-window-end=24,retention-days=30
-```
-For a database, use `--resource-type=sqladmin.googleapis.com/Instance`.
+Two modules do this:
 
-### 6.2 Associate a workload to the plan
-The association must be created in the **workload project** (the same project as the thing being backed up), even though it points at a plan in the management project.
-```bash
-gcloud backup-dr backup-plan-associations create <NAME> \
-  --project=<WORKLOAD_PROJECT> --location=<REGION> \
-  --backup-plan=projects/<MGMT_PROJECT>/locations/<REGION>/backupPlans/<PLAN> \
-  --resource=projects/<WORKLOAD_PROJECT>/zones/<ZONE>/instances/<VM> \
-  --resource-type=compute.googleapis.com/Instance
+| Module | What it does |
+|--------|--------------|
+| `workload-iam` | Grants the Backup and DR service the permission it needs on the workload project. **Compute and Cloud SQL use two different service identities, and each needs its own grant** - this module handles both. |
+| `backup-plan` | Creates the backup plan (in the management project) and the association (in the workload project) for one workload. |
+
+### 6.1 One-time setup: the service identity emails
+
+The `workload-iam` module needs the email addresses of two Backup and DR service identities. These are generated per project and cannot be predicted, so you fetch them once and set them as variables.
+
+The quickest way to get them: attempt to create a backup association (or check the IAM page of the workload project). The identities look like this:
+
 ```
-Resource path shapes differ:
+vault-<management-project-number>-<id>@gcp-sa-backupdr-pr.iam.gserviceaccount.com
+```
+
+There are two - one for compute, one for Cloud SQL, with different `<id>` numbers. Put them in your environment's `variables.tf`:
+
+```hcl
+variable "backupdr_compute_agent_email"  { type = string, default = "" }
+variable "backupdr_cloudsql_agent_email" { type = string, default = "" }
+```
+
+### 6.2 Define the workloads to protect
+
+In your environment's `main.tf`, list the workloads as a map. Each entry creates a plan and an association. Adapt the values per client:
+
+```hcl
+locals {
+  backups = {
+    my-vm = {
+      location        = "us-central1"
+      plan_id         = "bp-compute-nonprod"
+      association_id  = "my-vm-assoc"
+      resource_type   = "compute.googleapis.com/Instance"
+      backup_vault_id = module.vault["us-compute-nonprod"].vault_id
+      resource        = "projects/${var.workload_project_id}/zones/us-central1-a/instances/my-vm"
+      retention_days  = var.nonprod_retention_days
+    }
+    my-db = {
+      location        = "us-central1"
+      plan_id         = "bp-database-nonprod"
+      association_id  = "my-db-assoc"
+      resource_type   = "sqladmin.googleapis.com/Instance"
+      backup_vault_id = module.vault["us-database-nonprod"].vault_id
+      resource        = "projects/${var.workload_project_id}/instances/my-db"
+      retention_days  = var.nonprod_retention_days
+    }
+  }
+}
+```
+
+Note the resource path differs by type:
 - Compute: `projects/<p>/zones/<zone>/instances/<name>`
 - Cloud SQL: `projects/<p>/instances/<name>` (no zone)
 
-### 6.3 Run a backup now (instead of waiting for the schedule)
+### 6.3 Wire in the modules
+
+Also in `main.tf`:
+
+```hcl
+module "workload_iam" {
+  source               = "../../modules/workload-iam"
+  workload_project_id  = var.workload_project_id
+  compute_agent_email  = var.backupdr_compute_agent_email
+  cloudsql_agent_email = var.backupdr_cloudsql_agent_email
+}
+
+module "backup_plan" {
+  source   = "../../modules/backup-plan"
+  for_each = local.backups
+
+  management_project_id = var.management_project_id
+  workload_project_id   = var.workload_project_id
+  location              = each.value.location
+  plan_id               = each.value.plan_id
+  association_id        = each.value.association_id
+  resource_type         = each.value.resource_type
+  backup_vault_id       = each.value.backup_vault_id
+  resource              = each.value.resource
+  retention_days        = each.value.retention_days
+
+  depends_on = [module.workload_iam]
+}
+```
+
+The `backup-plan` module needs the `google-beta` provider. Add it to your `terraform { required_providers { ... } }` block and add a matching provider block:
+
+```hcl
+google-beta = {
+  source  = "hashicorp/google-beta"
+  version = ">= 5.0"
+}
+```
+```hcl
+provider "google-beta" {
+  project = var.management_project_id
+  region  = var.region
+  zone    = var.zone
+}
+```
+
+Then `terraform plan` and `terraform apply` as usual. The plans, associations, and permissions are all created for you.
+
+### 6.4 Run a backup now (instead of waiting for the schedule)
+
+Triggering an immediate backup is a one-off action, not infrastructure, so it stays a command:
+
 ```bash
 gcloud backup-dr backup-plan-associations trigger-backup <NAME> \
   --workload-project=<WORKLOAD_PROJECT> --location=<REGION> \
