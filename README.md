@@ -10,15 +10,16 @@ This README is written for someone **new to Terraform**. It explains the concept
 
 1. [What this builds](#1-what-this-builds)
 2. [Before you start (prerequisites)](#2-before-you-start)
-3. [Repository layout](#3-repository-layout)
-4. [Step-by-step: deploy it](#4-step-by-step-deploy-it)
-5. [Step-by-step: register the appliances](#5-register-the-appliances)
-6. [Step-by-step: set up a backup](#6-set-up-a-backup)
-7. [How to check it worked](#7-how-to-check-it-worked)
-8. [Adapting this for a new client](#8-adapting-this-for-a-new-client)
-9. [Things that will trip you up](#9-things-that-will-trip-you-up)
-10. [Going to production](#10-going-to-production)
-11. [Glossary](#11-glossary)
+3. [Get set up (login, clone, create projects)](#3-get-set-up)
+4. [Repository layout](#4-repository-layout)
+5. [Step-by-step: deploy it](#5-step-by-step-deploy-it)
+6. [Register the appliances](#6-register-the-appliances)
+7. [Set up a backup](#7-set-up-a-backup)
+8. [How to check it worked](#8-how-to-check-it-worked)
+9. [Adapting this for a new client](#9-adapting-this-for-a-new-client)
+10. [Things that will trip you up](#10-things-that-will-trip-you-up)
+11. [Going to production](#11-going-to-production)
+12. [Glossary](#12-glossary)
 
 ---
 
@@ -35,7 +36,7 @@ The solution is built from these Terraform **modules** (a module is a reusable b
 | `workload-iam` | The cross-project permissions the backup service needs | One |
 | `backup-plan` | A backup plan and association for one workload | One per workload |
 
-The first four modules build the **platform**. The last two set up the **actual backups** (covered in section 6). A vault on its own is just storage - a backup plan and association are what make a workload get backed up.
+The first four modules build the **platform**. The last two set up the **actual backups** (covered in section 7). A vault on its own is just storage - a backup plan and association are what make a workload get backed up.
 
 ---
 
@@ -62,7 +63,56 @@ Each appliance uses 4 vCPUs. Three appliances use 12, which is exactly the defau
 
 ---
 
-## 3. Repository layout
+## 3. Get set up
+
+These are the one-time steps to go from nothing to a repo you can deploy from. Run them in order.
+
+### 3.1 Log into Google Cloud
+```bash
+gcloud auth login
+gcloud auth application-default login
+```
+The first logs in the CLI. The second stores credentials that Terraform can use.
+
+### 3.2 Clone this repository
+```bash
+git clone https://github.com/<org>/<repo>.git
+cd <repo>
+```
+Replace `<org>/<repo>` with this repository's path.
+
+### 3.3 Create your projects
+You need two projects - one for the backup platform, one for the workloads you will protect. Project IDs must be globally unique, so adjust the names if they are taken.
+```bash
+# Find your billing account ID and organisation ID
+gcloud billing accounts list
+gcloud organizations list
+
+# Create the two projects (swap in your own names and org ID)
+gcloud projects create <MGMT_PROJECT_ID> --name="Backup DR Management" --organization=<ORG_ID>
+gcloud projects create <WORKLOAD_PROJECT_ID> --name="Backup DR Workload" --organization=<ORG_ID>
+
+# Link billing to both (required before anything will deploy)
+gcloud billing projects link <MGMT_PROJECT_ID> --billing-account=<BILLING_ACCOUNT_ID>
+gcloud billing projects link <WORKLOAD_PROJECT_ID> --billing-account=<BILLING_ACCOUNT_ID>
+```
+The code does not care what you name the projects - the names are passed in as variables (see section 7). Keep a note of the two project IDs; you will need them shortly.
+
+### 3.4 Turn on the APIs
+```bash
+# Management project
+gcloud services enable backupdr.googleapis.com compute.googleapis.com servicenetworking.googleapis.com --project=<MGMT_PROJECT_ID>
+
+# Workload project
+gcloud services enable backupdr.googleapis.com compute.googleapis.com sqladmin.googleapis.com --project=<WORKLOAD_PROJECT_ID>
+```
+
+### 3.5 Point the code at your projects
+Open `environments/<your-environment>/variables.tf` (or the workspace variables in Terraform Cloud) and set the management and workload project IDs to the ones you just created. This is the only place the project names live.
+
+---
+
+## 4. Repository layout
 
 ```
 repo/
@@ -80,31 +130,31 @@ repo/
                     backend.tf    - points at the Terraform Cloud workspace
                     outputs.tf    - useful values printed after a build
   scripts/
-    register_appliances.py   - run once after a build (see section 5)
+    register_appliances.py   - run once after a build (see section 6)
 ```
 
 **The key idea**: the `modules/` folder is the reusable engine and you rarely touch it. The `environments/<client>/` folder is where each client's specific values live. To onboard a new client, you copy the environment folder and change its values - not the modules.
 
 ---
 
-## 4. Step-by-step: deploy it
+## 5. Step-by-step: deploy it
 
 Run these from inside `environments/<client>/`.
 
-### 4.1 Initialise (first time only)
+### 5.1 Initialise (first time only)
 ```bash
 cd environments/<client>
 terraform init
 ```
 This connects to Terraform Cloud and downloads the needed plugins.
 
-### 4.2 See what will be built
+### 5.2 See what will be built
 ```bash
 terraform plan
 ```
-Read the output. The first build creates around 95+ resources. If the plan shows errors, fix them before going further (see section 9).
+Read the output. The first build creates around 95+ resources. If the plan shows errors, fix them before going further (see section 10).
 
-### 4.3 Build it
+### 5.3 Build it
 ```bash
 terraform apply
 ```
@@ -118,7 +168,7 @@ When it finishes, the infrastructure exists - but the appliances are **not yet r
 
 ---
 
-## 5. Register the appliances
+## 6. Register the appliances
 
 Building an appliance does not automatically connect it to the management server. You must register it, and this is a **separate step run after the build**.
 
@@ -139,7 +189,7 @@ In the `region` module the appliance is set with `ba_registration = false`. **Le
 
 ---
 
-## 6. Set up a backup
+## 7. Set up a backup
 
 Vaults are only storage. To back a workload up you need a **backup plan** (the schedule and target vault) and an **association** (which links one workload to a plan). Both are now handled by Terraform modules, so you add a workload by editing config rather than running commands.
 
@@ -150,7 +200,7 @@ Two modules do this:
 | `workload-iam` | Grants the Backup and DR service the permission it needs on the workload project. **Compute and Cloud SQL use two different service identities, and each needs its own grant** - this module handles both. |
 | `backup-plan` | Creates the backup plan (in the management project) and the association (in the workload project) for one workload. |
 
-### 6.1 One-time setup: the service identity emails
+### 7.1 One-time setup: the service identity emails
 
 The `workload-iam` module needs the email addresses of two Backup and DR service identities. These are generated per project and cannot be predicted, so you fetch them once and set them as variables.
 
@@ -167,7 +217,7 @@ variable "backupdr_compute_agent_email"  { type = string, default = "" }
 variable "backupdr_cloudsql_agent_email" { type = string, default = "" }
 ```
 
-### 6.2 Define the workloads to protect
+### 7.2 Define the workloads to protect
 
 In your environment's `main.tf`, list the workloads as a map. Each entry creates a plan and an association. Adapt the values per client:
 
@@ -200,7 +250,7 @@ Note the resource path differs by type:
 - Compute: `projects/<p>/zones/<zone>/instances/<name>`
 - Cloud SQL: `projects/<p>/instances/<name>` (no zone)
 
-### 6.3 Wire in the modules
+### 7.3 Wire in the modules
 
 Also in `main.tf`:
 
@@ -248,7 +298,7 @@ provider "google-beta" {
 
 Then `terraform plan` and `terraform apply` as usual. The plans, associations, and permissions are all created for you.
 
-### 6.4 Run a backup now (instead of waiting for the schedule)
+### 7.4 Run a backup now (instead of waiting for the schedule)
 
 Triggering an immediate backup is a one-off action, not infrastructure, so it stays a command:
 
@@ -260,7 +310,7 @@ gcloud backup-dr backup-plan-associations trigger-backup <NAME> \
 
 ---
 
-## 7. How to check it worked
+## 8. How to check it worked
 
 **Use the right screen.** Backups made this way appear in the **Google Cloud Console** under Backup and DR > Backup vaults / Vaulted backups. They do **not** appear in the older appliance console - that one stays empty for this type of backup, which is normal.
 
@@ -275,21 +325,21 @@ A row showing `ACTIVE` means the backup is in the vault.
 
 ---
 
-## 8. Adapting this for a new client
+## 9. Adapting this for a new client
 
 1. Copy `environments/<existing>/` to `environments/<new-client>/`.
 2. In its `main.tf`, edit the **regions** map (region, zone, and IP range per region) and the **vaults** map (how many vaults, and their retention).
 3. In its `variables.tf`, set the management and workload project IDs and the retention values.
 4. In its `backend.tf`, point at the new client's Terraform Cloud workspace.
 5. Run `terraform init`, `terraform plan`, `terraform apply`.
-6. Run the registration script (section 5).
-7. Work through the production checklist (section 10) before going live.
+6. Run the registration script (section 6).
+7. Work through the production checklist (section 11) before going live.
 
 You should not need to change anything in `modules/`. That is the point of the structure.
 
 ---
 
-## 9. Things that will trip you up
+## 10. Things that will trip you up
 
 These are real issues you are likely to hit. Each has a simple cause.
 
@@ -306,7 +356,7 @@ These are real issues you are likely to hit. Each has a simple cause.
 
 ---
 
-## 10. Going to production
+## 11. Going to production
 
 Some settings are deliberately relaxed for testing and **must** be corrected before a real production deployment:
 
@@ -321,7 +371,7 @@ Some settings are deliberately relaxed for testing and **must** be corrected bef
 
 ---
 
-## 11. Glossary
+## 12. Glossary
 
 | Term | Plain meaning |
 |------|---------------|
