@@ -13,3 +13,7 @@ output "region_subnets" {
 output "vault_ids" {
   value = { for k, m in module.vault : k => m.vault_id }
 }
+
+output "management_server_api" {
+  value = module.management.management_server_api
+}
