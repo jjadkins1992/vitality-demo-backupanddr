@@ -1,10 +1,10 @@
 variable "management_project_id" {
   type    = string
-  default = "backup-and-dr-dev-0"
+  default = "bkp-dr-mgmt-test-01"
 }
 variable "workload_project_id" {
   type    = string
-  default = "backup-dr-workload-dev-0"
+  default = "bkp-dr-wl-test-01"
 }
 variable "region" {
   type    = string
