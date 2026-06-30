@@ -20,11 +20,11 @@ variable "subnet_cidr" {
 }
 variable "nonprod_retention_days" {
   type    = number
-  default = 30
+  default = 1
 }
 variable "prod_retention_days" {
   type    = number
-  default = 90
+  default = 1
 }
 variable "devops_group_id" {
   type    = string
